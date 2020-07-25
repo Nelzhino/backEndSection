@@ -39,7 +39,7 @@ class CommentController {
 
 
     }
-    async getIdeasComments(res, req) {
+    async getIdeaComments(res, req) {
         const { ideasId } = req.params;
         const comments = await _commentService.getIdeasComments(ideasId);
 
