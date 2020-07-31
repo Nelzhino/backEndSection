@@ -1,9 +1,9 @@
 const { createContainer, asClass, asValue, asFunction } = require('awilix');
-const { model } = require('mongoose');
 
 //config
 const config = require('../config');
 const app = require('.');
+const Routes = require('../routes');
 
 // services
 const { HomeService, UserService, IdeaService, CommentService, AuthService } = require('../services');
@@ -13,7 +13,6 @@ const { HomeController, UserController, IdeaController, CommentController, AuthC
 
 // routes
 const { HomeRoutes, UserRoutes, IdeaRoutes, CommentRoutes, AuthRoutes } = require('../routes/index.routes')
-const Routes = require('../routes');
 
 // models
 const { User, Idea, Comment } = require('../models');
