@@ -1,46 +1,65 @@
-const { createContainer, asValue, asClass, asFunction } = require('awilix');
+const { createContainer, asClass, asValue, asFunction } = require('awilix');
+
+//config
+const config = require('../config');
+const app = require('.');
+const Routes = require('../routes');
+
+// services
+const { HomeService, UserService, IdeaService, CommentService, AuthService } = require('../services');
+
+// controller
+const { HomeController, UserController, IdeaController, CommentController, AuthController } = require('../controllers');
+
+// routes
+const { HomeRoutes, UserRoutes, IdeaRoutes, CommentRoutes, AuthRoutes } = require('../routes/index.routes')
+
+// models
+const { User, Idea, Comment } = require('../models');
+
+
+// repository 
+const { UserRepository, IdeaRepository, CommentRepository } = require('../repositories');
 
 const container = createContainer();
-const { register } = container;
 
-// MAINS
-const app = require('.');
-const config = require('../config');
-const Routes = require('../routes/index.routes');
-register({
-    app: asClass(app).singleton(),
-    config: asValue(config),
-    router: asFunction(Routes).singleton()
-});
+container
+    .register({
+        app: asClass(app).singleton(),
+        router: asFunction(Routes).singleton(),
+        config: asValue(config)
+    })
+    .register({
+        HomeService: asClass(HomeService).singleton(),
+        UserService: asClass(UserService).singleton(),
+        CommentService: asClass(CommentService).singleton(),
+        IdeaService: asClass(IdeaService).singleton(),
+        AuthService: asClass(AuthService).singleton()
+    })
+    .register({
+        HomeController: asClass(HomeController.bind(HomeController)).singleton(),
+        UserController: asClass(UserController.bind(UserController)).singleton(),
+        IdeaController: asClass(IdeaController.bind(IdeaController)).singleton(),
+        CommentController: asClass(CommentController.bind(CommentController)).singleton(),
+        AuthController: asClass(AuthController.bind(AuthController)).singleton()
+    })
+    .register({
+        HomeRoutes: asFunction(HomeRoutes).singleton(),
+        UserRoutes: asFunction(UserRoutes).singleton(),
+        IdeaRoutes: asFunction(IdeaRoutes).singleton(),
+        CommentRoutes: asFunction(CommentRoutes).singleton(),
+        AuthRoutes: asFunction(AuthRoutes).singleton()
+    })
+    .register({
+        User: asValue(User),
+        Idea: asValue(Idea),
+        Comment: asValue(Comment)
+    })
+    .register({
+        UserRepository: asClass(UserRepository).singleton(),
+        IdeaRepository: asClass(IdeaRepository).singleton(),
+        CommentRepository: asClass(CommentRepository).singleton()
+    })
 
-register({
-    // REPOSITORIES
-    ...mapImports(require('../repositories'), repository => asClass(repository).singleton()),
-
-    // SERVICES
-    ...mapImports(require('../services'), service => asClass(service).singleton()),
-
-    // CONTROLLERS
-    ...mapImports(require('../controllers'), controller => asClass(controller.bind(controller)).singleton()),
-
-    // ROUTES
-    ...mapImports(require('../routes'), route => asFunction(route).singleton()),
-
-    // MODELS
-    ...mapImports(require('../models'), asValue),
-
-    // HELPERS
-    ...mapImports(require('../helpers'), asValue),
-
-    // MIDDLEWARES
-    ...mapImports(require('../middlewares'), asValue),
-});
-
-function mapImports(imports, mapper) {
-    return Object.keys(imports).reduce(
-        (acc, key) => ({...acc, [key]: mapper(imports[key]) }),
-        imports
-    );
-}
 
 module.exports = container;
