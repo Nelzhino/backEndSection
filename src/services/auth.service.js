@@ -1,4 +1,4 @@
-const { JwtHelper } = require('../helpers');
+const { generateToken } = require('../helpers/jwt.helper');
 let _userService = null;
 
 class AuthService {
@@ -14,7 +14,7 @@ class AuthService {
         if (userExist) {
             const error = new Error();
             error.status = 401;
-            error.message = 'User already exists';
+            error.message = 'User already exist';
             throw error;
         }
 
@@ -46,8 +46,8 @@ class AuthService {
             id: userExist._id
         };
 
-        const token = JwtHelper.generateToken(userToEncode);
-        return { token, user: userExist }
+        const token = generateToken(userToEncode);
+        return { token, user: userExist };
     }
 
 }
