@@ -1,3 +1,4 @@
+const { exceptions } = require('../helpers/exceptions');
 class BaseService {
 
     constructor(repository) {
@@ -6,20 +7,13 @@ class BaseService {
 
     async get(id) {
         if (!id) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'id must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'id must be sent' });
         }
 
         const currentEntity = await this.repository.get(id);
-
         if (!currentEntity) {
-            const error = new Error();
-            error.status = 404;
-            error.message = 'entity does not found';
+            exceptions({ status: 404, message: 'entity does not found' });
         }
-
         return currentEntity;
     }
 
@@ -34,10 +28,7 @@ class BaseService {
 
     async update(id) {
         if (!id) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'id must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'id must be sent' });
         }
 
         return await this.repository.update(id, entity);
@@ -45,10 +36,7 @@ class BaseService {
 
     async delete(id) {
         if (!id) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'id must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'id must be sent' });
         }
 
         return await this.repository.delete(id);

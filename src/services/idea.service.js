@@ -1,4 +1,5 @@
-const BaseService = require('./base.service')
+const BaseService = require('./base.service');
+const { exceptions } = require('../helpers/exceptions');
 let _ideaRepository = null;
 
 class IdeaService extends BaseService {
@@ -10,10 +11,7 @@ class IdeaService extends BaseService {
 
     async getUserIdea(author) {
         if (!author) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'userId must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'userId must be sent' });
         }
 
         return await _ideaRepository.getUserIdea(author);
@@ -21,19 +19,13 @@ class IdeaService extends BaseService {
 
     async upvoteIdea(ideaId) {
         if (!ideaId) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'ideaId must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'ideaId must be sent' });
         }
 
         const idea = await _ideaRepository.get(ideaId);
 
         if (!idea) {
-            const error = new Error();
-            error.status = 404;
-            error.message = 'idea does not exist';
-            throw error;
+            exceptions({ status: 404, message: 'idea does not exist' });
         }
 
         idea.upvotes.push(true);
@@ -44,19 +36,13 @@ class IdeaService extends BaseService {
 
     async downvoteIdea(ideaId) {
         if (!ideaId) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'ideaId must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'ideaId must be sent' });
         }
 
         const idea = await _ideaRepository.get(ideaId);
 
         if (!idea) {
-            const error = new Error();
-            error.status = 404;
-            error.message = 'idea does not exist';
-            throw error;
+            exceptions({ status: 404, message: 'idea does not exist' });
         }
 
         idea.downvotes.push(true);

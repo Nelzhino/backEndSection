@@ -14,19 +14,13 @@ class CommentService extends BaseService {
     async getIdeaComments(ideaId) {
 
         if (!ideaId) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'ideaId must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'ideaId must be sent' });
         }
 
         const idea = await _ideaRepository.get(ideaId);
 
         if (!idea) {
-            const error = new Error();
-            error.status = 404;
-            error.message = 'idea does not exist';
-            throw error;
+            exceptions({ status: 404, message: 'idea does not exist' });
         }
 
         const { comments } = idea;
@@ -37,19 +31,13 @@ class CommentService extends BaseService {
 
     async createComment(comment, ideaId) {
         if (!ideaId) {
-            const error = new Error();
-            error.status = 400;
-            error.message = 'ideaId must be sent';
-            throw error;
+            exceptions({ status: 400, message: 'ideaId must be sent' });
         }
 
         const idea = await _ideaRepository.get(ideaId);
 
         if (!idea) {
-            const error = new Error();
-            error.status = 404;
-            error.message = 'idea does not exist';
-            throw error;
+            exceptions({ status: 404, message: 'idea does not exist' });
         }
 
 
