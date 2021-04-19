@@ -31,14 +31,6 @@ class CommentController {
         const deletedComment = await _commentService.delete(commentId);
         return res.send(deletedComment);
     }
-
-    async createComment(req, res) {
-        const { body } = req;
-        const { ideasId } = req.params;
-        const createdComment = await _commentService.createdComment(body, ideasId);
-
-
-    }
     async getIdeaComments(res, req) {
         const { ideasId } = req.params;
         const comments = await _commentService.getIdeasComments(ideasId);
@@ -48,7 +40,7 @@ class CommentController {
 
     async createComment(res, req) {
         const { body } = req;
-        const { ideasId } = req.params;
+        const { ideaId } = req.params;
         const createdComment = await _commentService.createComment(body, ideaId);
 
         return res.status(201).send(createdComment);
