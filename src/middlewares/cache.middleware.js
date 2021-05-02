@@ -3,7 +3,8 @@ const { CACHE_KEY } = require('../config');
 
 module.exports = function(duration) {
     return (req, res, next) => {
-        const key = CACHE_KEY + req.originUrl || req.url;
+        const url = req.originUrl || req.baseUrl;
+        const key = CACHE_KEY + url;
         const cachedBody = mcache.get(key);
 
         if (cachedBody) {
