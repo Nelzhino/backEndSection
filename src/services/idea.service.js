@@ -1,5 +1,5 @@
 const BaseService = require('./base.service');
-const { exceptions } = require('../helpers/exceptions');
+const { Exceptions } = require('../helpers');
 let _ideaRepository = null;
 
 class IdeaService extends BaseService {
@@ -11,7 +11,7 @@ class IdeaService extends BaseService {
 
     async getUserIdea(author) {
         if (!author) {
-            exceptions({ status: 400, message: 'userId must be sent' });
+            Exceptions.exceptions({ status: 400, message: 'userId must be sent' });
         }
 
         return await _ideaRepository.getUserIdea(author);
@@ -19,13 +19,13 @@ class IdeaService extends BaseService {
 
     async upvoteIdea(ideaId) {
         if (!ideaId) {
-            exceptions({ status: 400, message: 'ideaId must be sent' });
+            Exceptions.exceptions({ status: 400, message: 'ideaId must be sent' });
         }
 
         const idea = await _ideaRepository.get(ideaId);
 
         if (!idea) {
-            exceptions({ status: 404, message: 'idea does not exist' });
+            Exceptions.exceptions({ status: 404, message: 'idea does not exist' });
         }
 
         idea.upvotes.push(true);
@@ -36,13 +36,13 @@ class IdeaService extends BaseService {
 
     async downvoteIdea(ideaId) {
         if (!ideaId) {
-            exceptions({ status: 400, message: 'ideaId must be sent' });
+            Exceptions.exceptions({ status: 400, message: 'ideaId must be sent' });
         }
 
         const idea = await _ideaRepository.get(ideaId);
 
         if (!idea) {
-            exceptions({ status: 404, message: 'idea does not exist' });
+            Exceptions.exceptions({ status: 404, message: 'idea does not exist' });
         }
 
         idea.downvotes.push(true);

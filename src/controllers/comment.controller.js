@@ -31,14 +31,14 @@ class CommentController {
         const deletedComment = await _commentService.delete(commentId);
         return res.send(deletedComment);
     }
-    async getIdeaComments(res, req) {
-        const { ideasId } = req.params;
-        const comments = await _commentService.getIdeasComments(ideasId);
+    async getIdeaComments(req, res) {
+        const { ideaId } = req.params;
+        const comments = await _commentService.getIdeaComments(ideaId);
 
         return res.send(comments);
     }
 
-    async createComment(res, req) {
+    async createComment(req, res) {
         const { body } = req;
         const { ideaId } = req.params;
         const createdComment = await _commentService.createComment(body, ideaId);

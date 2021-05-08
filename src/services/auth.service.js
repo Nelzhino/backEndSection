@@ -1,5 +1,5 @@
 const { generateToken } = require('../helpers/jwt.helper');
-const { exceptions } = require('../helpers/exceptions');
+const { Exceptions } = require('../helpers');
 let _userService = null;
 
 class AuthService {
@@ -13,7 +13,7 @@ class AuthService {
         const userExist = await _userService.getUserByUsername(username);
 
         if (userExist) {
-            exceptions({ status: 401, message: 'User already exist' });
+            Exceptions.exceptions({ status: 401, message: 'User already exist' });
         }
 
         return await _userService.create(user);
@@ -24,13 +24,13 @@ class AuthService {
         const userExist = await _userService.getUserByUsername(username);
 
         if (!userExist) {
-            exceptions({ status: 404, message: 'User does not exists' });
+            Exceptions.exceptions({ status: 404, message: 'User does not exists' });
         }
 
         const validPassword = userExist.comparePasswords(password);
 
         if (!validPassword) {
-            exceptions({ status: 400, message: 'Invalid Password' });
+            Exceptions.exceptions({ status: 400, message: 'Invalid Password' });
         }
 
         const userToEncode = {

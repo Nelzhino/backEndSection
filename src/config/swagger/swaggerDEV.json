@@ -153,6 +153,50 @@
                     }
                 }
             }
+        },
+        "/idea": {
+            "get": {
+                "tags": ["Idea"],
+                "summary": "Finds All the Idea",
+                "description": "",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Idea"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
+        },
+        "/idea/{id}": {
+            "get": {
+                "tags": ["Idea"],
+                "summary": "Finds the Idea by Id",
+                "description": "",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Idea"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -170,6 +214,33 @@
                 },
                 "password": {
                     "type": "string"
+                }
+            }
+        },
+        "Idea": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "upvotes": {
+                    "type": "boolean"
+                },
+                "downvotes": {
+                    "type": "boolean"
+                },
+                "author": {
+                    "_id": {
+                        "type": "string"
+                    }
+                },
+                "comments": {
+                    "_id": {
+                        "type": "string"
+                    }
                 }
             }
         }
